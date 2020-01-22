@@ -1,4 +1,6 @@
-package org.volgatech.patchvisualizer.app.patch;
+package org.volgatech.patchvisualizer.app.service;
+
+import org.volgatech.patchvisualizer.app.model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;

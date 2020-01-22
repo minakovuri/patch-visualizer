@@ -1,4 +1,4 @@
-package org.volgatech.patchvisualizer.app.patch;
+package org.volgatech.patchvisualizer.app.model;
 
 public class CommitInfo {
     private Author author; // TODO: непонятно, зачем использовать это, если в name сетается вся строка, а не имя

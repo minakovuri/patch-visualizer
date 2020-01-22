@@ -1,15 +1,15 @@
-package org.volgatech.patchvisualizer.app.patch;
+package org.volgatech.patchvisualizer.app.model;
 
 public class CommitLine {
     private CommitLineStatus status;
     private String text;
     private int index;
 
-    CommitLineStatus getStatus() {
+    public CommitLineStatus getStatus() {
         return status;
     }
 
-    void setStatus(CommitLineStatus status) {
+    public void setStatus(CommitLineStatus status) {
         this.status = status;
     }
 
@@ -21,11 +21,11 @@ public class CommitLine {
         this.text = text;
     }
 
-    int getIndex() {
+    public int getIndex() {
         return index;
     }
 
-    void setIndex(int index) {
+    public void setIndex(int index) {
         this.index = index;
     }
 }

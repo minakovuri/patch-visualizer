@@ -1,4 +1,4 @@
-package org.volgatech.patchvisualizer.app.patch;
+package org.volgatech.patchvisualizer.app.model;
 
 public enum CommitLineStatus {
     REMOVED,
