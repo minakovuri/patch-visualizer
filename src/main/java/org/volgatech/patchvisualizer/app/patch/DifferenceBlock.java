@@ -1,42 +1,42 @@
-package org.volgatech.patchvisualizer.app;
+package org.volgatech.patchvisualizer.app.patch;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DifferenceBlock {
+    private CommitChunkPosition previousCommit;
+    private CommitChunkPosition currentCommit;
+    private String functionName;
+    private List<CommitLine> commitLines;
+
     public CommitChunkPosition getPreviousCommit() {
-        // TODO
-        return new CommitChunkPosition();
+        return previousCommit;
     }
 
     public void setPreviousCommit(CommitChunkPosition previousCommit) {
-        // TODO
+        this.previousCommit = previousCommit;
     }
 
     public CommitChunkPosition getCurrentCommit() {
-        // TODO
-        return new CommitChunkPosition();
+        return currentCommit;
     }
 
     public void setCurrentCommit(CommitChunkPosition currentCommit) {
-        // TODO
+        this.currentCommit = currentCommit;
     }
 
     public List<CommitLine> getCommitLines() {
-        // TODO
-        return new ArrayList<>();
+        return commitLines;
     }
 
     public void setCommitLines(List<CommitLine> commitLines) {
-        // TODO
+        this.commitLines = commitLines;
     }
 
     public void setFunctionName(String functionName) {
-        // TODO
+        this.functionName = functionName;
     }
 
     public String getFunctionName() {
-        // TODO
-        return "";
+        return functionName;
     }
 }

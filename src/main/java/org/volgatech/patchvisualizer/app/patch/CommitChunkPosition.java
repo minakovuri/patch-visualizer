@@ -1,8 +1,8 @@
-package org.volgatech.patchvisualizer.app;
+package org.volgatech.patchvisualizer.app.patch;
 
 public class CommitChunkPosition {
-    private int offset = 0;
-    private int height = 0;
+    private int offset;
+    private int height;
 
     public void setOffset(int offset)
     {
