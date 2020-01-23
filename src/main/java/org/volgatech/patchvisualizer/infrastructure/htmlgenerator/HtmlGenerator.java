@@ -88,6 +88,11 @@ public abstract class HtmlGenerator {
                 throw new IOException("Invalid commit line status");
         }
 
+        htmlText += CODE;
+        htmlText += commitLine.getText();
+        htmlText += CODE_CLOSE;
+        htmlText += TD_CLOSE;
+
         return htmlText;
     }
 
