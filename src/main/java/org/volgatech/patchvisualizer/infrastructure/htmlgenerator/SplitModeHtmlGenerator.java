@@ -24,14 +24,14 @@ class SplitModeHtmlGenerator extends HtmlGenerator {
             htmlText.append(TR);
 
             htmlText.append(TD);
-            String prevLineNumber = (prevLine.getPreviousIndex() != -1) ? String.valueOf(prevLine.getPreviousIndex()) : " ";
+            String prevLineNumber = (prevLine.getPreviousIndex() != -1) ? String.valueOf(prevLine.getPreviousIndex()+1) : " ";
             htmlText.append(prevLineNumber);
             htmlText.append(TD_CLOSE);
 
             htmlText.append(getPayloadHtml(prevLine));
 
             htmlText.append(TD);
-            String curLineNumber = (curLine.getIndex() != -1) ? String.valueOf(curLine.getIndex()) : " ";
+            String curLineNumber = (curLine.getIndex() != -1) ? String.valueOf(curLine.getIndex()+1) : " ";
             htmlText.append(curLineNumber);
             htmlText.append(TD_CLOSE);
 

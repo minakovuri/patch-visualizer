@@ -9,8 +9,7 @@ public class CommitChunkPosition {
         this.offset = offset;
     }
 
-    public int getOffset()
-    {
+    public int getOffset() {
         return offset;
     }
 

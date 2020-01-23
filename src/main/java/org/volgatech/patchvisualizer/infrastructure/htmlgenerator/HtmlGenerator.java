@@ -20,13 +20,24 @@ public abstract class HtmlGenerator {
             "" +
             "    <title>Patch-visualizer</title>" +
             "<style type=\"text/css\">" +
+            "body {" +
+            "   margin: 50px 200px;" +
+            "   padding: 20px;" +
+            "   border: 1px solid;" +
+            "}" +
             "code {" +
-            "white-space: pre;" +
-            "color: black" +
+            "   white-space: pre;" +
+            "   color: black" +
+            "}" +
+            "table {" +
+            "   margin-top: 30px;" +
+            "}" +
+            ".table td, .table th {" +
+            "   padding: 0;" +
             "}" +
             "</style>" +
             "  </head>" +
-            "    <body>";
+            "  <body>";
 
     protected static final String TABLE_PREFIX = "      <table class=\"table\">" +
             "        <thead class=\"thead-dark\">" +
@@ -52,8 +63,8 @@ public abstract class HtmlGenerator {
     protected static final String TD_CLOSE = "</td>";
     protected static final String CODE = "<code>";
     protected static final String CODE_CLOSE = "</code>";
-    protected static final String H3 = "<h3>";
-    protected static final String H3_CLOSE = "</h3>";
+    protected static final String DIV = "<div>";
+    protected static final String DIV_CLOSE = "</div>";
     private static final String FILE_NAME = "File name: ";
 
     public static String generateHtml(DisplayMode mode, List<GeneralCommitLine> lines, CommitInfo commitInfo) throws IOException {
@@ -111,21 +122,21 @@ public abstract class HtmlGenerator {
     private String getCommitInformationHtml(CommitInfo commitInfo) {
         String htmlText = "";
 
-        htmlText += H3;
+        htmlText += DIV;
         htmlText += commitInfo.getAuthor().getName();
-        htmlText += H3_CLOSE;
+        htmlText += DIV_CLOSE;
 
-        htmlText += H3;
+        htmlText += DIV;
         htmlText += commitInfo.getDate();
-        htmlText += H3_CLOSE;
+        htmlText += DIV_CLOSE;
 
-        htmlText += H3;
+        htmlText += DIV;
         htmlText += commitInfo.getSubject();
-        htmlText += H3_CLOSE;
+        htmlText += DIV_CLOSE;
 
-        htmlText += H3;
+        htmlText += DIV;
         htmlText += FILE_NAME + commitInfo.getFileName();
-        htmlText += H3_CLOSE;
+        htmlText += DIV_CLOSE;
 
         return htmlText;
     }
