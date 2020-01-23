@@ -5,11 +5,8 @@ import org.volgatech.patchvisualizer.app.model.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class PatchReader {
-    private static final Logger LOG = Logger.getLogger(PatchReader.class.getName());
-
     private static final String PATTERN = "[" + "\\" + "@]{2,2}\\s[" + "\\" + "-]{1,1}[0-9]{1,}["
             + "\\" + ",]{0,1}[0-9]{0,}\\s[" + "\\"
             + "+]{1,1}[0-9]{1,}[" + "\\"

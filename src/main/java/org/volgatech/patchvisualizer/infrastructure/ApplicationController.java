@@ -1,11 +1,19 @@
 package org.volgatech.patchvisualizer.infrastructure;
 
+import org.volgatech.patchvisualizer.app.model.CommitInfo;
+import org.volgatech.patchvisualizer.app.model.GeneralCommitLine;
+import org.volgatech.patchvisualizer.app.service.CommitLineGenerator;
 import org.volgatech.patchvisualizer.app.service.DifferenceBlockValidator;
 import org.volgatech.patchvisualizer.app.service.MainFileReader;
 import org.volgatech.patchvisualizer.app.model.PatchInfo;
 import org.volgatech.patchvisualizer.app.service.PatchReader;
-import org.volgatech.patchvisualizer.infrastructure.arguments.Arguments;
 
+import org.volgatech.patchvisualizer.infrastructure.htmlgenerator.HtmlGenerator;
+import org.volgatech.patchvisualizer.infrastructure.arguments.Arguments;
+import org.volgatech.patchvisualizer.infrastructure.arguments.DisplayMode;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,16 +50,47 @@ public class ApplicationController {
             Path mainFilePath = Paths.get(arguments.getFilePath());
             String mainFileContent = Files.readString(mainFilePath);
             mainFileLines = MainFileReader.parseLines(mainFileContent);
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.log(Level.SEVERE, e.getMessage());
             return;
         }
 
         try {
             DifferenceBlockValidator.check(patchInfo.getDifferenceBlocks(), mainFileLines);
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.log(Level.SEVERE, e.getMessage());
             return;
+        }
+
+        List<GeneralCommitLine> generalCommitLines;
+        try {
+            generalCommitLines = CommitLineGenerator.getGeneralCommitLines(mainFileLines, patchInfo.getDifferenceBlocks());
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+            return;
+        }
+
+        File outFile;
+        FileWriter fileWriter = null;
+
+        try {
+            DisplayMode displayMode = arguments.getDisplayMode();
+            CommitInfo commitInfo= patchInfo.getCommitInfo();
+            String htmlText = HtmlGenerator.generateHtml(displayMode, generalCommitLines, commitInfo);
+
+            outFile = new File(arguments.getOutFilePath());
+            fileWriter = new FileWriter(outFile);
+
+            fileWriter.write(htmlText);
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, e.getMessage());
+        } finally {
+            try {
+                assert fileWriter != null;
+                fileWriter.close();
+            } catch (IOException e) {
+                LOG.log(Level.SEVERE, e.getMessage());
+            }
         }
     }
 }
