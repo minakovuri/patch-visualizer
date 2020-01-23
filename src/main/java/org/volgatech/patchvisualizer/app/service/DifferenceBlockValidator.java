@@ -23,7 +23,7 @@ public class DifferenceBlockValidator {
 
     private static void checkLine(int difLineNumber, CommitLine line, List<String> fileLines) throws IOException {
         if (fileLines.size() < difLineNumber) {
-            throw new IOException(); // TODO
+            throw new IOException("Unexpected line");
         }
 
         String mainLine = fileLines.get(difLineNumber-1);
@@ -34,7 +34,7 @@ public class DifferenceBlockValidator {
         }
 
         if (!mainLine.equals(difLine)) {
-            throw new IOException(); // TODO
+            throw new IOException("Unexpected line");
         }
     }
 }

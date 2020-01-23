@@ -1,7 +1,7 @@
 package org.volgatech.patchvisualizer.infrastructure.htmlgenerator;
 
 import org.volgatech.patchvisualizer.app.model.CommitLineStatus;
-import org.volgatech.patchvisualizer.app.model.GeneralCommitLine;
+import org.volgatech.patchvisualizer.app.model.OutCommitLine;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,17 +9,17 @@ import java.util.List;
 
 class SplitModeHtmlGenerator extends HtmlGenerator {
     @Override
-    protected String getBody(List<GeneralCommitLine> lines) throws IOException {
+    protected String getBody(List<OutCommitLine> lines) throws IOException {
         StringBuilder htmlText = new StringBuilder();
 
-        List<GeneralCommitLine> tmpCurLines = new ArrayList<>();
-        List<GeneralCommitLine> tmpPrevLines = new ArrayList<>();
+        List<OutCommitLine> tmpCurLines = new ArrayList<>();
+        List<OutCommitLine> tmpPrevLines = new ArrayList<>();
 
         splitLinesByCommits(lines, tmpCurLines, tmpPrevLines);
 
         for (int i = 0; i < tmpCurLines.size(); ++i) {
-            GeneralCommitLine curLine = tmpCurLines.get(i);
-            GeneralCommitLine prevLine = tmpPrevLines.get(i);
+            OutCommitLine curLine = tmpCurLines.get(i);
+            OutCommitLine prevLine = tmpPrevLines.get(i);
 
             htmlText.append(TR);
 
@@ -43,8 +43,8 @@ class SplitModeHtmlGenerator extends HtmlGenerator {
         return htmlText.toString();
     }
 
-    private void splitLinesByCommits(List<GeneralCommitLine> lines, List<GeneralCommitLine> tmpCurLines, List<GeneralCommitLine> tmpPrevLines) throws IOException {
-        for (GeneralCommitLine line: lines) {
+    private void splitLinesByCommits(List<OutCommitLine> lines, List<OutCommitLine> tmpCurLines, List<OutCommitLine> tmpPrevLines) throws IOException {
+        for (OutCommitLine line: lines) {
             switch (line.getStatus()) {
                 case DEFAULT:
                     this.balanceCommits(tmpCurLines, tmpPrevLines);
@@ -64,9 +64,9 @@ class SplitModeHtmlGenerator extends HtmlGenerator {
         this.balanceCommits(tmpCurLines, tmpPrevLines);
     }
 
-    private void balanceCommits(List<GeneralCommitLine> tmpCurLines, List<GeneralCommitLine> tmpPrevLines) {
+    private void balanceCommits(List<OutCommitLine> tmpCurLines, List<OutCommitLine> tmpPrevLines) {
         while (tmpPrevLines.size() != tmpCurLines.size()) {
-            GeneralCommitLine emptyLine = new GeneralCommitLine();
+            OutCommitLine emptyLine = new OutCommitLine();
             emptyLine.setStatus(CommitLineStatus.DEFAULT);
             emptyLine.setText("");
             emptyLine.setIndex(-1);

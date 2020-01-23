@@ -1,6 +1,6 @@
 package org.volgatech.patchvisualizer.app.model;
 
-public class CommitChunkPosition {
+public class ChangeChunk {
     private int offset;
     private int height;
 
@@ -9,9 +9,7 @@ public class CommitChunkPosition {
         this.offset = offset;
     }
 
-    public int getOffset() {
-        return offset;
-    }
+    public int getOffset() { return offset; }
 
     public void setHeight(int height)
     {
