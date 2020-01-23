@@ -1,7 +1,7 @@
 package org.volgatech.patchvisualizer.infrastructure.htmlgenerator;
 
 import org.volgatech.patchvisualizer.app.model.CommitInfo;
-import org.volgatech.patchvisualizer.app.model.GeneralCommitLine;
+import org.volgatech.patchvisualizer.app.model.OutCommitLine;
 import org.volgatech.patchvisualizer.infrastructure.arguments.DisplayMode;
 
 import java.io.IOException;
@@ -66,7 +66,7 @@ public abstract class HtmlGenerator {
     protected static final String DIV = "<div>";
     protected static final String DIV_CLOSE = "</div>";
 
-    public static String generateHtml(DisplayMode mode, List<GeneralCommitLine> lines, CommitInfo commitInfo) throws IOException {
+    public static String generateHtml(DisplayMode mode, List<OutCommitLine> lines, CommitInfo commitInfo) throws IOException {
         HtmlGenerator htmlGenerator;
         switch (mode) {
             case SPLIT:
@@ -81,7 +81,7 @@ public abstract class HtmlGenerator {
         return htmlGenerator.generateHtml(lines, commitInfo);
     }
 
-    protected String getPayloadHtml(GeneralCommitLine commitLine) throws IOException {
+    protected String getPayloadHtml(OutCommitLine commitLine) throws IOException {
         String htmlText = "";
 
         switch (commitLine.getStatus()) {
@@ -106,7 +106,7 @@ public abstract class HtmlGenerator {
         return htmlText;
     }
 
-    private String generateHtml(List<GeneralCommitLine> lines, CommitInfo commitInfo) throws IOException {
+    private String generateHtml(List<OutCommitLine> lines, CommitInfo commitInfo) throws IOException {
         String htmlText = "";
 
         htmlText += HTML_HEADER;
@@ -144,5 +144,5 @@ public abstract class HtmlGenerator {
         return htmlText;
     }
 
-    abstract protected String getBody(List<GeneralCommitLine> lines) throws IOException;
+    abstract protected String getBody(List<OutCommitLine> lines) throws IOException;
 }

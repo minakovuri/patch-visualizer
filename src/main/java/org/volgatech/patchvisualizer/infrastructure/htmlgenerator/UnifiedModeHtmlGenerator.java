@@ -1,16 +1,16 @@
 package org.volgatech.patchvisualizer.infrastructure.htmlgenerator;
 
-import org.volgatech.patchvisualizer.app.model.GeneralCommitLine;
+import org.volgatech.patchvisualizer.app.model.OutCommitLine;
 
 import java.io.IOException;
 import java.util.List;
 
 class UnifiedModeHtmlGenerator extends HtmlGenerator {
     @Override
-    protected String getBody(List<GeneralCommitLine> lines) throws IOException {
+    protected String getBody(List<OutCommitLine> lines) throws IOException {
         StringBuilder htmlText = new StringBuilder();
 
-        for (GeneralCommitLine commitLine : lines) {
+        for (OutCommitLine commitLine : lines) {
             htmlText.append(TR);
 
             htmlText.append(TD);

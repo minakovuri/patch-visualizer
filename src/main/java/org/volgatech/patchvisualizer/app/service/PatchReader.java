@@ -2,7 +2,6 @@ package org.volgatech.patchvisualizer.app.service;
 
 import org.volgatech.patchvisualizer.app.model.*;
 
-import javax.print.DocFlavor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,8 +62,7 @@ public class PatchReader {
                 differenceBlock = new DifferenceBlock();
                 commitLines = new ArrayList<>();
 
-                parseFunctionNameInBlockSeparator(line, differenceBlock);
-                parseBlockSeparator(line, differenceBlock);
+                parseChangeChunks(line, differenceBlock);
 
                 isNewBlock = true;
                 continue;
@@ -84,36 +82,36 @@ public class PatchReader {
         return patchInfo;
     }
 
-    private static void parseBlockSeparator(String line, DifferenceBlock differenceBlock) throws IOException {
-        String[] parsedChunkLines = line.split(" ");
-        if (parsedChunkLines.length < 4) {
+    private static void parseChangeChunks(String line, DifferenceBlock differenceBlock) throws IOException {
+        String[] chunkLines = line.split(" ");
+        if (chunkLines.length < 4) {
             throw new IOException();
         }
-        if (!parsedChunkLines[0].equals("@@") || !parsedChunkLines[3].equals("@@")) {
-            throw new IOException(); // TODO
+        if (!chunkLines[0].equals("@@") || !chunkLines[3].equals("@@")) {
+            throw new IOException("Block @@ ... @@ is invalid");
         }
 
-        String minusNumber = parsedChunkLines[1];
-        String plusNumber = parsedChunkLines[2];
+        String minusNumber = chunkLines[1];
+        String plusNumber = chunkLines[2];
         if (minusNumber.contains("-")) {
-            CommitChunkPosition commitChunkPosition = parseCommitChunkPosition(minusNumber);
-            differenceBlock.setPreviousCommit(commitChunkPosition);
+            ChangeChunk changeChunk = parseChangeChunk(minusNumber);
+            differenceBlock.setPreviousCommit(changeChunk);
         } else {
-            throw new IOException(); // TODO
+            throw new IOException("Block @@ ... @@ is invalid");
         }
         if (plusNumber.contains("+")) {
-            CommitChunkPosition commitChunkPosition = parseCommitChunkPosition(minusNumber);
-            differenceBlock.setCurrentCommit(commitChunkPosition);
+            ChangeChunk changeChunk = parseChangeChunk(plusNumber);
+            differenceBlock.setCurrentCommit(changeChunk);
         } else {
-            throw new IOException(); // TODO
+            throw new IOException("Block @@ ... @@ is invalid");
         }
     }
 
-    private static CommitChunkPosition parseCommitChunkPosition(String decimalNumberStr) throws IOException {
+    private static ChangeChunk parseChangeChunk(String decimalNumberStr) throws IOException {
         decimalNumberStr = decimalNumberStr.substring(1);
         String[] numbers = decimalNumberStr.split(",");
 
-        CommitChunkPosition chunkPosition = new CommitChunkPosition();
+        ChangeChunk chunkPosition = new ChangeChunk();
         if (numbers.length == 2) {
             chunkPosition.setOffset(Integer.parseInt(numbers[0]));
             chunkPosition.setHeight(Integer.parseInt(numbers[1]));
@@ -121,17 +119,9 @@ public class PatchReader {
             chunkPosition.setOffset(0);
             chunkPosition.setHeight(Integer.parseInt(numbers[0]));
         } else {
-            throw new IOException(); // TODO
+            throw new IOException("Change chunk block is invalid");
         }
         return chunkPosition;
-    }
-
-    private static void parseFunctionNameInBlockSeparator(String line, DifferenceBlock differenceBlock) {
-        int lastDogDog = line.lastIndexOf("@@");
-        String functionName = line.substring(lastDogDog + 2, line.length());
-        if (!functionName.equals("")) {
-            differenceBlock.setFunctionName(functionName);
-        }
     }
 
     private static void setCommitLinesToDifferenceBlock(DifferenceBlock differenceBlock, List<CommitLine> commitLines, List<DifferenceBlock> differenceBlocks) {

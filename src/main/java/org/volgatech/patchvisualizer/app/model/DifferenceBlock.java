@@ -3,24 +3,23 @@ package org.volgatech.patchvisualizer.app.model;
 import java.util.List;
 
 public class DifferenceBlock {
-    private CommitChunkPosition previousCommit;
-    private CommitChunkPosition currentCommit;
-    private String functionName;
+    private ChangeChunk previousCommit;
+    private ChangeChunk currentCommit;
     private List<CommitLine> commitLines;
 
-    public CommitChunkPosition getPreviousCommit() {
+    public ChangeChunk getPreviousCommit() {
         return previousCommit;
     }
 
-    public void setPreviousCommit(CommitChunkPosition previousCommit) {
+    public void setPreviousCommit(ChangeChunk previousCommit) {
         this.previousCommit = previousCommit;
     }
 
-    public CommitChunkPosition getCurrentCommit() {
+    public ChangeChunk getCurrentCommit() {
         return currentCommit;
     }
 
-    public void setCurrentCommit(CommitChunkPosition currentCommit) {
+    public void setCurrentCommit(ChangeChunk currentCommit) {
         this.currentCommit = currentCommit;
     }
 
@@ -30,13 +29,5 @@ public class DifferenceBlock {
 
     public void setCommitLines(List<CommitLine> commitLines) {
         this.commitLines = commitLines;
-    }
-
-    public void setFunctionName(String functionName) {
-        this.functionName = functionName;
-    }
-
-    public String getFunctionName() {
-        return functionName;
     }
 }

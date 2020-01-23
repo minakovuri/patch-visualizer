@@ -1,7 +1,7 @@
 package org.volgatech.patchvisualizer.infrastructure;
 
 import org.volgatech.patchvisualizer.app.model.CommitInfo;
-import org.volgatech.patchvisualizer.app.model.GeneralCommitLine;
+import org.volgatech.patchvisualizer.app.model.OutCommitLine;
 import org.volgatech.patchvisualizer.app.service.CommitLineGenerator;
 import org.volgatech.patchvisualizer.app.service.DifferenceBlockValidator;
 import org.volgatech.patchvisualizer.app.service.MainFileReader;
@@ -63,9 +63,9 @@ public class ApplicationController {
         }
 
         CommitLineGenerator commitLineGenerator = new CommitLineGenerator();
-        List<GeneralCommitLine> generalCommitLines;
+        List<OutCommitLine> outCommitLines;
         try {
-            generalCommitLines = commitLineGenerator.getGeneralCommitLines(mainFileLines, patchInfo.getDifferenceBlocks());
+            outCommitLines = commitLineGenerator.getOutCommitLines(mainFileLines, patchInfo.getDifferenceBlocks());
         } catch (Exception e) {
             LOG.log(Level.SEVERE, e.getMessage());
             return;
@@ -77,7 +77,7 @@ public class ApplicationController {
         try {
             DisplayMode displayMode = arguments.getDisplayMode();
             CommitInfo commitInfo= patchInfo.getCommitInfo();
-            String htmlText = HtmlGenerator.generateHtml(displayMode, generalCommitLines, commitInfo);
+            String htmlText = HtmlGenerator.generateHtml(displayMode, outCommitLines, commitInfo);
 
             outFile = new File(arguments.getOutFilePath());
             fileWriter = new FileWriter(outFile);
