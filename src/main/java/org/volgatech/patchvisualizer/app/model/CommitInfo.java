@@ -1,24 +1,29 @@
 package org.volgatech.patchvisualizer.app.model;
 
 public class CommitInfo {
-    private Author author; // TODO: непонятно, зачем использовать это, если в name сетается вся строка, а не имя
+    private String commit;
+    private String author;
     private String date;
     private String subject;
     private String fileName;
+
+    public String getCommit() { return commit; }
+
+    public void setCommit(String commit) { this.commit = commit; }
 
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String newName) {
+    public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

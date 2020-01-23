@@ -2,17 +2,19 @@ package org.volgatech.patchvisualizer.app.service;
 
 import org.volgatech.patchvisualizer.app.model.*;
 
+import javax.print.DocFlavor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PatchReader {
-    private static final String PATTERN = "[" + "\\" + "@]{2,2}\\s[" + "\\" + "-]{1,1}[0-9]{1,}["
-            + "\\" + ",]{0,1}[0-9]{0,}\\s[" + "\\"
-            + "+]{1,1}[0-9]{1,}[" + "\\"
-            + ",]{0,1}[0-9]{0,}\\s[" + "\\" + "@]{2,2}.{0,}";
+    private static final String PATTERN = "[\\@]{2}\\s[\\-][0-9]+["
+            + "\\,]?[0-9]*\\s[\\"
+            + "+][0-9]+[\\"
+            + ",]?[0-9]{0,}\\s[\\@]{2,2}.{0,}";
 
-    private static final String FROM = "From: ";
+    private static final String COMMIT = "From ";
+    private static final String AUTHOR = "From: ";
     private static final String DATE = "Date: ";
     private static final String SUBJECT = "Subject: ";
 
@@ -41,12 +43,17 @@ public class PatchReader {
 
             lineNumber++;
 
-            if (lineNumber > 1 && lineNumber < 8 && !line.isEmpty()) {
+            if (lineNumber > 0 && lineNumber < 8 && !line.isEmpty()) {
                 if (line.substring(0, 3).contains(FILE_NAME_SEPARATOR)) {
                     isFileName = true;
                     continue;
                 }
                 parseCommitInfo(line, commitInfo, isFileName);
+
+                if (isFileName) {
+                    isFileName = false;
+                }
+
                 continue;
             }
 
@@ -135,10 +142,10 @@ public class PatchReader {
     }
 
     private static void parseCommitInfo(String line, CommitInfo commitInfo, boolean isFileName) throws IOException {
-        if (line.contains(FROM)) {
-            Author author = new Author();
-            author.setName(line);
-            commitInfo.setAuthor(author);
+        if (line.contains(COMMIT)) {
+            commitInfo.setCommit(line);
+        } else if (line.contains(AUTHOR)) {
+            commitInfo.setAuthor(line);
         } else if (line.contains(DATE)) {
             commitInfo.setDate(line);
         } else if (line.contains(SUBJECT)) {

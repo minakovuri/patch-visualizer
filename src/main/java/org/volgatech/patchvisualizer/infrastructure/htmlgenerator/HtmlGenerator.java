@@ -65,7 +65,6 @@ public abstract class HtmlGenerator {
     protected static final String CODE_CLOSE = "</code>";
     protected static final String DIV = "<div>";
     protected static final String DIV_CLOSE = "</div>";
-    private static final String FILE_NAME = "File name: ";
 
     public static String generateHtml(DisplayMode mode, List<GeneralCommitLine> lines, CommitInfo commitInfo) throws IOException {
         HtmlGenerator htmlGenerator;
@@ -123,7 +122,11 @@ public abstract class HtmlGenerator {
         String htmlText = "";
 
         htmlText += DIV;
-        htmlText += commitInfo.getAuthor().getName();
+        htmlText += commitInfo.getCommit();
+        htmlText += DIV_CLOSE;
+
+        htmlText += DIV;
+        htmlText += commitInfo.getAuthor();
         htmlText += DIV_CLOSE;
 
         htmlText += DIV;
@@ -135,7 +138,7 @@ public abstract class HtmlGenerator {
         htmlText += DIV_CLOSE;
 
         htmlText += DIV;
-        htmlText += FILE_NAME + commitInfo.getFileName();
+        htmlText += "File: " + commitInfo.getFileName();
         htmlText += DIV_CLOSE;
 
         return htmlText;
