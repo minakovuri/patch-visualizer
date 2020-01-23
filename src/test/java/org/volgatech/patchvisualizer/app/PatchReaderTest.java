@@ -17,14 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class PatchReaderTest {
-    List<File> m_testFiles;
-
-    @BeforeEach
-    public void init() {
-        m_testFiles = new ArrayList<>();
-
-    }
-
     @Test
     public void patchReaderReturnValidPatchInfo() throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
@@ -37,19 +29,7 @@ public class PatchReaderTest {
         String contents = new String(Files.readAllBytes(Paths.get(file.getPath())));
         PatchInfo data = PatchReader.parsePatchInfo(contents);
 
-        assertEquals(
-                "From: mrkurbatov <32720129+mrkurbatov@users.noreply.github.com>",
-                data.getCommitInfo().getAuthor().getName()
-        );
-
-        assertEquals(
-                "Subject: [PATCH] Update HelloWorld.java",
-                data.getCommitInfo().getSubject()
-        );
-
-        assertEquals(
-                "Date: Thu, 30 Nov 2017 23:20:04 +0300",
-                data.getCommitInfo().getDate()
-        );
+        assertEquals("Subject: [PATCH] Update HelloWorld.java", data.getCommitInfo().getSubject());
+        assertEquals("Date: Thu, 30 Nov 2017 23:20:04 +0300", data.getCommitInfo().getDate());
     }
 }
