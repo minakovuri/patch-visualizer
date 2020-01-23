@@ -7,23 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommitLineGenerator {
-    public static List<GeneralCommitLine> getGeneralCommitLines(List<String> fileLines, List<DifferenceBlock> differenceBlocks) throws IOException {
+    private int mainFileIndex;
+    private int prevIndex;
+    private int currIndex;
+
+    public List<GeneralCommitLine> getGeneralCommitLines(List<String> fileLines, List<DifferenceBlock> differenceBlocks) throws IOException {
         List<GeneralCommitLine> generalCommitLines = new ArrayList<>();
 
-        int mainFileIndex = 0;
-        int prevIndex = 0;
-        int currIndex = 0;
+        this.mainFileIndex = 0;
+        this.prevIndex = 0;
+        this.currIndex = 0;
 
         for (DifferenceBlock differenceBlock : differenceBlocks) {
             int offset = differenceBlock.getCurrentCommit().getOffset() - 1;
-            copyDefaultLines(mainFileIndex, offset, generalCommitLines, fileLines, prevIndex, currIndex);
-
-            prevIndex++;
-            currIndex++;
+            copyDefaultLines(offset, generalCommitLines, fileLines);
 
             List<CommitLine> commitLines = differenceBlock.getCommitLines();
             for (CommitLine rawLine: commitLines) {
-                handleRawLine(rawLine, generalCommitLines, prevIndex, currIndex);
+                handleRawLine(rawLine, generalCommitLines);
             }
 
             CommitChunkPosition position = differenceBlock.getCurrentCommit();
@@ -35,12 +36,12 @@ public class CommitLineGenerator {
         }
 
         int offset = fileLines.size();
-        copyDefaultLines(mainFileIndex, offset, generalCommitLines, fileLines, prevIndex, currIndex);
+        copyDefaultLines(offset, generalCommitLines, fileLines);
 
         return generalCommitLines;
     }
 
-    private static void handleRawLine(CommitLine rawLine, List<GeneralCommitLine> generalCommitLines, int prevIndex, int currIndex) throws IOException {
+    private void handleRawLine(CommitLine rawLine, List<GeneralCommitLine> generalCommitLines) throws IOException {
         GeneralCommitLine newLine = new GeneralCommitLine();
         newLine.setText(rawLine.getText());
         newLine.setPreviousIndex(-1);
@@ -68,11 +69,11 @@ public class CommitLineGenerator {
         generalCommitLines.add(newLine);
     }
 
-    private static void copyDefaultLines(int mainFileIndex, int offset, List<GeneralCommitLine> generalCommitLines, List<String> fileLines, int prevIndex, int currIndex) {
+    private void copyDefaultLines(int offset, List<GeneralCommitLine> generalCommitLines, List<String> fileLines) {
         for (int i = mainFileIndex; i < offset; i++) {
             GeneralCommitLine line = new GeneralCommitLine();
-            line.setPreviousIndex(prevIndex);
-            line.setIndex(currIndex);
+            line.setPreviousIndex(prevIndex++);
+            line.setIndex(currIndex++);
             line.setText(fileLines.get(i));
             line.setStatus(CommitLineStatus.DEFAULT);
 

@@ -62,9 +62,10 @@ public class ApplicationController {
             return;
         }
 
+        CommitLineGenerator commitLineGenerator = new CommitLineGenerator();
         List<GeneralCommitLine> generalCommitLines;
         try {
-            generalCommitLines = CommitLineGenerator.getGeneralCommitLines(mainFileLines, patchInfo.getDifferenceBlocks());
+            generalCommitLines = commitLineGenerator.getGeneralCommitLines(mainFileLines, patchInfo.getDifferenceBlocks());
         } catch (Exception e) {
             LOG.log(Level.SEVERE, e.getMessage());
             return;

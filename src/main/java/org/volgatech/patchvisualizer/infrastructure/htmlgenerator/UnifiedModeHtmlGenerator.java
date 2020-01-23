@@ -8,6 +8,7 @@ import java.util.List;
 class UnifiedModeHtmlGenerator extends HtmlGenerator {
     @Override
     protected String getBody(List<GeneralCommitLine> lines) throws IOException {
+        // TODO
         return null;
     }
 }
